@@ -1,0 +1,184 @@
+body {
+    margin: 0;
+    font-family: 'Quattrocento Sans', sans-serif;
+}
+
+.body{
+    background-color: #5b21b6;
+    width: 600px;
+    height: 100vh;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.login-container , .password-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 490px;
+    height: auto;
+    align-items: center;
+    margin: 50px auto;
+}
+.form-box, .form-box-password {
+    flex: 1;
+    background-color: #fff;
+    padding: 60px 40px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box h1, .form-box-password h1{
+    font-size: 36px;
+    color: #5b21b6;
+    margin-bottom: 30px;
+}
+
+.form-box form, .form-box-password form{
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-box label .form-box-password label{
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.form-box input[type="text"],
+.form-box input[type="password"],
+.form-box-password input[type="email"],
+.form-box-password input[type="text"],
+.form-box-password input[type="password"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px 15px;
+    margin: 5px 0 15px 0;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #4c1d95;
+    margin-bottom: 20px;
+}
+
+.checkbox-remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.loginbtn, .signbtn {
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    width: 150px;
+    height: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+}
+
+.loginbtn {
+    background-color: #9B61F6;
+    color: black;
+}
+
+.signbtn {
+    background-color: #ba9ce9;
+    color: black;
+    width: 130px;
+    height: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.signbtn a{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    width: 100%; height: 100%;
+    line-height: 30px;
+}
+.back-link {
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    color: #4c1d95;
+    text-decoration: none;
+    text-align: center;
+}
+
+.image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+}
+
+.options a{
+    margin-left: 100px;
+    text-decoration: none;
+    color: #4c1d95;
+}
+.form-box-password button{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    width: 150px;
+    height: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: #9B61F6;
+    color: #fff;
+}
+.form-box-password .change-password{
+    background-color: #ba9ce9;
+    color: black;
+    width: 150px;
+    height: 50px;
+}
+.password-container{
+    margin-top: 25%;
+}

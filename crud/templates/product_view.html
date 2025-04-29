@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+        <link rel="stylesheet" href="{% static 'crud/css/home.css' %}"> 
+        <title>{{ product.product_name }} - Otaku stuff</title>
+    </head>
+    <body class="{% if is_logged_in %}logged-in{% endif %}">
+        <header class="otaku-header">
+            <a href="{% url 'home' %}"><h1><b>Otaku Stuff</b></h1></a>
+            <form method="GET" action="{% url 'catalog' %}" class="searchbar">
+                <input type="text" name="search" placeholder="Search...">
+                <button type="submit" class="searchbtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="iconbtn">
+                <div class="user-menu">
+                    <div class="user-icon" id="userIcon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <nav class="user-opc" id="userMenu">
+                        <ul class="user-act">
+                            <li><a href="{% url 'login' %}">Log in</a></li>
+                            <li><a href="{% url 'user_dashboard' %}">View profile</a></li>
+                            <li><a href="{% url 'logout-user' %}" onclick="showLogoutMessage(event)">Log out</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <a href="{% url 'shopping_cart' %}" class="icon"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </header>
+
+        <div class="product-container">
+            <div class="left-side">
+                <img src="{{ product.product_image.url }}">
+            </div>
+            <div class="right-side">
+                <h1>{{ product.product_name }}</h1>
+                <h2>Description</h2><h5>{{ product.product_description }}</h5>
+                <h4><b>Category: </b>{{ product.section }}</h4>
+                <h4><b>Platform: </b>{{ product.platform }}</h4>
+                <h4><b>Supplier: </b>{{ product.supplier }}</h4>
+                <h4><b>In stock: </b>({{ product.stock }})</h4>
+                <h3><b>${{ product.product_price }} MXN</b></h3>
+                <h3>Purchase product</h3>
+                
+                <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" id="quantity-input" value="1">
+                    <button type="submit" class="add-to-cart" >Add to cart</button>
+                </form>
+            </div>
+        </div>
+
+        <h1>Related products</h1>
+        <hr>
+        <div class="full_catalog">
+            <ul class="product-list">
+                {% for product in catalog %}
+                        <li class="product-card">
+                            <a href="{% url 'product_detail' product.pk %}">
+                                <img class="product-img" src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+                            </a>
+                            <h3>{{ product.product_name }}</h3>
+                            <hr>
+                            <p>${{ product.product_price }} MXN</p>
+                        </li>
+                {% empty %}
+                    <li>No products available</li>
+                {% endfor %}
+            </ul>
+        </div>    
+
+        <footer class="otaku-footer">
+            <h4><i class="fa-regular fa-copyright"></i> 2025 <b>Otaku stuff.</b> All rights reserved.</h4>
+            <div class="socialmedia">
+                <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.threads.net/?hl=en"><i class="fa-brands fa-threads"></i></a>
+                <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://x.com/?lang=en"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/explore"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <h4>Glory to Mankind</h4>
+        </footer>
+    </body>
+    <script src="{% static 'crud/js/script.js' %}"></script>
+</html>

@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+    <link rel="stylesheet" href="{% static 'crud/css/log_sign_in.css'%}">
+    <title>Sign in</title>
+    <style>
+        body {
+            margin: 0; font-family: 'Quattrocento Sans', sans-serif;
+        }
+        .body-sign {
+            background-color: #5b21b6;
+            width: 600px;
+            height: 100vh;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container{
+            display: flex;
+            width: 90%;
+            max-width: 420px;
+            height: 500px;
+            background-color: #fff;
+            border-radius: 30px;
+            padding: 30px 20px;
+            overflow-y: auto;
+            margin: 0 auto;
+        }
+        .container::-webkit-scrollbar{
+            width: 8px;
+        }
+        .container::-webkit-scrollbar-thumb{
+            background-color: #9B61F6;
+            border-radius: 5px;
+        }
+        .box-sign {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .box-sign h1{
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #5b21b6;
+        }
+        .box-sign form{
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .box-sign label{
+            margin-top: 10px;
+            font-weight: bold;
+            width: 100%;
+            max-width: 300px;
+            margin-left: -15px;
+            font-size: 16px;
+        }
+        .box-sign input[type="text"],
+        .box-sign input[type="password"],
+        .box-sign input[type="email"],
+        .box-sign input[type="tel"] {
+            width: 100%;
+            padding: 12px 18px;
+            margin: 10px 0;
+            border-radius: 50px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+            background-color: #d9d9d9;
+            margin-left: -20px;
+        }
+        .form-actions{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .signbtn {
+            margin: 0px;
+            background-color: #9B61F6;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+        .back-link {
+            margin: 0;
+            font-size: 16px;
+            color: #4c1d95;
+            text-decoration: none;
+        }
+        p, ul, li{
+            font-size: 16px;
+        }
+        ul, li{
+            margin: 0;
+        }
+        .image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            margin-left: 100px;
+        }
+        .image img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="image">
+        <img src="{% static 'crud/images/background-sign.jpeg' %}">
+    </div>
+
+    <div class="body-sign">
+        <div class="container">
+            <div class="box-sign">
+                <h1>Sign In</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="form-actions">
+                        <button type="submit" class="signbtn">Sign in</button>
+                        <a href="{% url 'home' %}" class="back-link"><i class="fa-solid fa-reply"></i> Go back to home page</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

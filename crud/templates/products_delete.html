@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {% endblock %}
+
+{% block content %}
+<h2>Are you sure to delete the prodict "{{ product.product_name}}"?</h2>
+<div class="box-delete">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type="submit">Yes, delete product</button>
+        <a href="{% url 'read_product' %}">Cancel and go back to the list of products</a>
+    </form>
+</div>
+{% endblock %}

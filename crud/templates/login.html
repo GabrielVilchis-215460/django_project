@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+    <link rel="stylesheet" href="{% static 'crud/css/log_sign_in.css' %}"> 
+    <title>Log In</title>
+</head>
+<body>
+    <div class="image">
+        <img src="{% static 'crud/images/background-log.jpg' %}">
+    </div>
+    
+    <div class="body">
+        <div class="login-container">
+            <div class="form-box">
+                <h1>Log In</h1>
+    
+                {% if form.errors %}
+                    <p class="error">Your username or password didn't match.
+                        Please try again,
+                    </p>
+                {% endif %}
+    
+                <form method="POST">
+                    {% csrf_token %}
+                    <label for="id_username">Username:</label>
+                    {{ form.username }}
+    
+                    <label for="id_password">Password:</label>
+                    {{ form.password }}
+                    
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" name="remember_me">
+                            Remember me
+                        </label>
+                        <a href="{% url 'password_reset' %}">Forgot your password?</a>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="loginbtn" >Log in</button>
+                        <a href="{% url 'signin' %}" class="signbtn">Sign in</a>
+                    </div>
+                       
+                </form>
+                <a href="{% url 'home' %}" class="back-link"><i class="fa-solid fa-reply"></i> Go back to home page</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrator site</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+    <style>
+        body{
+            margin: 40px;
+            font-family: 'Quattrocento Sans';
+            background-color: #5b21b6;
+        }
+        h1{
+            font-size: 36px;
+            color: #fff;
+            font-weight: bold;
+        }
+        p{
+            font-size: 16px;
+            color: #fff;
+        }
+        nav a{
+            margin-right: 15px;
+            text-decoration: none;
+            color: white;
+            transition: color 0.3 ease;
+        }
+        nav a:hover{
+            color: black;
+        }
+        .container{
+            max-width: 800px;
+            margin: auto;
+        }
+        h2{
+            font-size: 30px;
+            color: #fff;
+        }
+        th{
+            color: #fff;
+        }
+        tr{
+            color: #fff;
+        }
+        td{
+            color: black;
+            font-style: italic;
+            font-weight: bold;
+            margin-right: -10xp;
+        }
+        table{
+            background-color: #ba9ce9;
+            border-radius: 10px;
+        }
+        table a{
+            text-decoration: none;
+            color: black;
+            transition: color 0.3 ease;
+        }
+        table a:hover{
+            color: #fff;
+        }
+        .box-form{
+            color: black;
+            background-color: #9b61F6;
+            display: flex;
+            justify-content: center;
+            border-radius: 50px;
+            width: 450px;
+            height: 400px;
+            font-weight: bold;
+        }
+        .box-form label{
+            color: #ffff;
+        }
+        .box-form a{
+            text-decoration: none;
+            color: #d9d9d9;
+            font-style: italic;
+        }
+        .box-form input, select{
+            border-radius: 10px;
+            border: none;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+        .box-form button{
+            margin-top: 10px;
+            background-color: #ba9ce9;
+            border: none;
+            border-radius: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            width: 100px;
+            cursor: pointer;
+            color: #fff;
+        }
+        hr{
+            height: 2px;
+            border: none;
+            background: linear-gradient(to right, transparent, #ffff, transparent);
+        }
+        .box-delete button{
+            background-color: #ba9ce9;
+            border: none;
+            color: black;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .box-delete a{
+            text-decoration: none;
+            font-size: 16px;
+            color: #fff;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="{% url 'read_product' %}">Home</a>
+            <a href="{% url 'create_product' %}">Create new product</a>
+            <a href="{% url 'logout-user' %}" >Log out</a>
+        </nav>
+        <hr>
+        {%  block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

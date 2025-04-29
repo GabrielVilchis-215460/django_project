@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title%}List of products{% endblock %}
+{% block content %}
+<h2>List of products</h2>
+<table cellpadding="8" cellspacing="3">
+    <tr>
+        <th>Product name</th>
+        <th>Product price</th>
+        <th>Product stock</th>
+        <th>Product image</th>
+        <th>Product supplier</th>
+        <th>Product platform</th>
+        <th>Product category</th>
+        <th>Actions</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.product_name }}</td>
+        <td>{{ product.product_price }}</td>
+        <td>{{ product.stock }}</td>
+        <td>
+            {% if product.product_image %}
+                <img src="{{ product.product_image.url }}" width="50">
+                {% else %}
+                    No image
+                {% endif %}
+        </td>
+        <td>{{ product.supplier }}</td>
+        <td>{{ product.platform }}</td>
+        <td>{{ product.section }}</td>
+        <td>
+            <a href="{% url 'update_product' product.pk%}">Edit product</a>
+            <a href="{% url 'delete_product' product.pk %}">Delete product</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">No products available</td></tr>
+    {% endfor %}
+</table>    
+{% endblock %}

@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+       <link rel="stylesheet" href="{% static 'crud/css/home.css' %}">
+       <title>Catalog - Otaku stuff</title>
+    </head>
+    <body class="{% if is_logged_in %}logged-in{% endif %}">
+        <header class="otaku-header">
+            <a href="{% url 'home' %}"><h1><b>Otaku Stuff</b></h1></a>
+            <form method="GET" action="{% url 'catalog' %}" class="searchbar">
+                <input type="text" name="search" placeholder="Search...">
+                <button type="submit" class="searchbtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="iconbtn">
+                <div class="user-menu">
+                    <div class="user-icon" id="userIcon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <nav class="user-opc" id="userMenu">
+                        <ul class="user-act">
+                            <li><a href="{% url 'login' %}">Log in</a></li>
+                            <li><a href="{% url 'user_dashboard' %}">View profile</a></li>
+                            <li><a href="{% url 'logout-user' %}" onclick="showLogoutMessage(event)">Log out</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <a href="{% url 'shopping_cart' %}" class="icon"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </header>
+
+        <div class="container-catalog">
+            <div class="sidebar">
+                <div class="filters">
+                    <h4 class="filter-toggle">Category ▼</h4>
+                    <ul class="filter-hidden">
+                        {% for category in categories %}
+                        <!-- <li>{{ category.category }} ({{ category.count }})</li>-->
+                            <li><a href="?category={{ category.category }}">{{category.category}}  ({{ category.count }})</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="filters">
+                    <h4 class="filter-toggle">Suppliers ▼</h4>
+                    <ul class="filter-hidden">
+                        {% for supplier in suppliers %}
+                            <li><a href="?supplier={{ supplier }}">{{ supplier }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="filters">
+                    <h4 class="filter-toggle">Platform ▼</h4>
+                    <ul class="filter-hidden">
+                        {% for platform in platforms %}
+                            <li><a href="?platform={{ platform }}">{{ platform }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <h1 class="title"><b>All products</b></h1>
+                <hr class="separador">
+                <div class="full_catalog">
+                    <ul class="product-list2">
+                        {% for product in product_list %}
+                            <li class="product-card2">
+                                <a href="{% url 'product_detail' product.pk %}">
+                                    <img class="product-img" src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+                                </a>
+                                <h3>{{ product.product_name }}</h3>
+                                <hr>
+                                <p>${{ product.product_price }} MXN</p>
+                            </li>
+                        {% empty %}
+                            <li>No products available</li>
+                        {% endfor %}
+                        
+                        <div class="pagination">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; First page</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">Previous page</a>
+                            {% endif %}
+                        
+                            <span>Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                        
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Next page</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">Last page &raquo;</a>
+                            {% endif %}
+                        </div>
+                    </ul>
+                </div>  
+            </div>
+        </div>
+         
+        <footer class="otaku-footer">
+            <h4><i class="fa-regular fa-copyright"></i> 2025 <b>Otaku stuff.</b> All rights reserved.</h4>
+            <div class="socialmedia">
+                <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.threads.net/?hl=en"><i class="fa-brands fa-threads"></i></a>
+                <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://x.com/?lang=en"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/explore"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <h4>Glory to Mankind</h4>
+        </footer>
+    </body>
+    <script src="{% static 'crud/js/script.js' %}"></script>
+</html>

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>User profile</title>
+        <link rel="stylesheet" href="{% static 'crud/css/home.css'%}">
+        <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+    </head>
+    <body class="{% if is_logged_in %}logged-in{% endif %}">
+        <header class="otaku-header">
+            <a href="{% url 'home' %}"><h1><b>Otaku Stuff</b></h1></a>
+            <form method="GET" action="{% url 'catalog' %}" class="searchbar">
+                <input type="text" name="search" placeholder="Search...">
+                <button type="submit" class="searchbtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="iconbtn">
+                <div class="user-menu">
+                    <div class="user-icon" id="userIcon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <nav class="user-opc" id="userMenu">
+                        <ul class="user-act">
+                            <li><a href="{% url 'login' %}">Log in</a></li>
+                            <li><a href="{% url 'user_dashboard' %}">View profile</a></li>
+                            <li><a href="{% url 'logout-user' %}" onclick="showLogoutMessage(event)">Log out</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <a href="{% url 'shopping_cart' %}" class="icon"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </header>
+
+        <h1>My profile</h1>
+        <hr>
+    <div class="container-user">
+        <div class="user-profile"> 
+            <ul>
+                <li>
+                    <a href="{% url 'user_dashboard' %}?section=profile" class="{% if section == 'profile' %}active{% endif %}">Edit profile</a>
+                </li>
+                <li>
+                    <a href="{% url 'user_dashboard' %}?section=orders" class="{% if section == 'orders' %}active{% endif %}">Order history</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content-user">
+            {% if section == 'profile' %}
+            <i class="fa-solid fa-circle-user"></i>
+            <form method="POST" class="form-profile">
+                {% csrf_token %}
+                <div class="profile-details">
+                    <h2>Account details</h2>
+                    {{ user_form.as_p }}
+                </div>
+
+                <div class="address-details">
+                    <h2>Address details</h2>
+                    {{ address_form.as_p }}
+                </div>
+                <div style="clear: both;"></div>
+                    <button type="submit">Save changes</button>
+            </form>
+            
+        {% elif section == 'orders' %}
+        <div class="orders-section">
+            <h2>Order history</h2>
+            {% if orders %}
+                {% for order in orders %}
+                    <div class="order-card">
+                        <p><strong>Order ID: </strong> {{ order.id }}</p>
+                        <p><strong>Status: </strong>{{ order.order_status }}</p>
+                        <p><strong>Date: </strong> {{ order.order_date|date:"d M Y H:i" }}</p>
+                        <p><strong>Total: </strong> ${{ order.total_amount }}</p>
+                        <div>
+                            <ul>
+                                <p><strong>Products: </strong></p>
+                                {% for detail in order.orderdetailrelationship_set.all %}
+                                <li>{{ detail.quantity }} x {{ detail.product.product_name }}</li>                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No orders found.</p>
+            {% endif %}
+        </div> 
+        {% endif %} 
+        </div>
+    </div>
+        <footer class="otaku-footer">
+            <h4><i class="fa-regular fa-copyright"></i> 2025 <b>Otaku stuff.</b> All rights reserved.</h4>
+            <div class="socialmedia">
+                <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.threads.net/?hl=en"><i class="fa-brands fa-threads"></i></a>
+                <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://x.com/?lang=en"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/explore"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <h4>Glory to Mankind</h4>
+        </footer>
+    </body>
+    <script src="{% static 'crud/js/script.js' %}"></script>
+</html>

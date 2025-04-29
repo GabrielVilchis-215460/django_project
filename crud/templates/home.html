@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Otaku stuff</title>
+    <link rel="stylesheet" href="{% static 'crud/css/home.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+</head>
+<body class="{% if is_logged_in %}logged-in{% endif %}">
+    <header class="otaku-header">
+        <a href="{% url 'home' %}"><h1><b>Otaku Stuff</b></h1></a>
+        <form method="GET" action="{% url 'catalog' %}" class="searchbar">
+            <input type="text" name="search" placeholder="Search...">
+            <button type="submit" class="searchbtn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+        <div class="iconbtn">
+            <div class="user-menu">
+                <div class="user-icon" id="userIcon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <nav class="user-opc" id="userMenu">
+                    <ul class="user-act">
+                        <li><a href="{% url 'login' %}">Log in</a></li>
+                        <li><a href="{% url 'user_dashboard' %}">View profile</a></li>
+                        <li><a href="{% url 'logout-user' %}" onclick="showLogoutMessage(event)">Log out</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <a href="{% url 'shopping_cart' %}" class="icon"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
+    </header>
+
+    <div class="carrusel">
+        <div class="carrusel-items">
+            <div class="slide">
+                <div class="slide-text">
+                    <h2><b>Elden Ring Nightreign</b></h2>
+                    <p>Step into a dark new chapter of the Lands Between. Face deadly foes, uncover hidden truths,
+                        and unleash your strength in the most anticipated expansion of the year.
+                    </p>
+                    <button>Pre-order now!</button>
+                </div>
+                <img src="{% static 'crud/images/carrusel1.png'%}">
+            </div>
+            <div class="slide">
+                <div class="slide-text">
+                    <h2><b>Hollow Knight: Silksong</b></h2>
+                    <p>Discover a vast, haunted kingdom in Hollow Knight: Silksong! The sequel to the
+                        award winning-action-adventure. Explore, fight and survive as you ascend to the 
+                        peak of a land ruled by silk and song.
+                    </p>
+                    <button>Pre-order now!</button>
+                </div>
+                <img src="{% static 'crud/images/carrusel2.jpeg'%}">
+            </div>
+            <div class="slide">
+                <div class="slide-text">
+                    <h2><b>Death Stranding 2: On The Beach</b></h2>
+                    <p>Embark on an inspiring mission of human connection beyond the UCA.
+                        Sam, with companions by his side sets out a new journey to save 
+                        humanity from extinction.
+                    </p>
+                    <button>Pre-order now!</button>
+                </div>
+                <img src="{% static 'crud/images/carrusel3.jpg'%}">
+            </div>
+            <div class="slide">
+                <div class="slide-text">
+                    <h2><b>Lies of P: Overture</b></h2>
+                    <p>As Geppetto's Puppet, you encounter a mysterious artifact that transports
+                        you back to Krat in its final days of grandeur. In the shadow of an 
+                        impending tragedy, your mission is explore the past and uncover its dark secrets.
+                    </p>
+                    <button>Pre-order now!</button>
+                </div>
+                <img src="{% static 'crud/images/carrusel4.jpg'%}">
+            </div>
+            <div class="slide">
+                <div class="slide-text">
+                    <h2><b>Stellar Blade™</b></h2>
+                    <p>Save humanity from extinction as critically acclaimed action-adventure Stellar
+                        Blade storms onto PC. Experience blistering combat and a twisting storyline as
+                        you unravel the mysteries of Earth's downfall.
+                    </p>
+                    <button>Pre-order now!</button>
+                </div>
+                <img src="{% static 'crud/images/carrusel5.jpg'%}">
+            </div>
+            
+        </div>
+    </div>
+
+    <h1>Pre Order Products</h1>
+    <hr>
+    <div class="preorder">
+        <ul class="product-list">
+            {% for product in preorder %}
+                <li class="product-card">
+                    <a href="{% url 'product_detail' product.pk %}">
+                        <img class="product-img" src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+                    </a>
+                    <h3>{{ product.product_name }}</h3>
+                    <hr>
+                    <p>${{ product.product_price }} MXN | 27 may 2025</p>
+                </li>
+            {% empty %}
+                <li>No products available</li>
+            {% endfor %}
+        </ul>
+    </div>    
+
+    <h1>Featured Categories</h1>
+    <hr>
+    <div class="categories">
+        <div class="item">
+            <img src="{% static 'crud/images/Cat1.jpg' %}"><h3><b>Games</b></h3>
+        </div>
+        <div class="item">
+            <img src="{% static 'crud/images/cat2.jpg' %}"><h3><b>DLC</b></h3>
+        </div>
+        <div class="item">
+            <img src="{% static 'crud/images/cat3.jpg' %}"><h3><b>Manga</b></h3>
+        </div>
+        <div class="item">
+            <img src="{% static 'crud/images/cat4.jpg' %}"><h3><b>Figures</b></h3>
+        </div>
+    </div>
+
+    
+    <a href="{% url 'catalog' %}" class="anchor"><h1>See Full Catalog</h1></a>
+    <hr>
+    <div class="full_catalog">
+        <ul class="product-list">
+            {% for product in catalog %}
+                    <li class="product-card">
+                        <a href="{% url 'product_detail' product.pk %}">
+                            <img class="product-img" src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+                        </a>
+                        <h3>{{ product.product_name }}</h3>
+                        <hr>
+                        <p>${{ product.product_price }} MXN</p>
+                    </li>
+            {% empty %}
+                <li>No products available</li>
+            {% endfor %}
+        </ul>
+    </div>    
+
+    <footer class="otaku-footer">
+        <h4><i class="fa-regular fa-copyright"></i> 2025 <b>Otaku stuff.</b> All rights reserved.</h4>
+        <div class="socialmedia">
+            <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.threads.net/?hl=en"><i class="fa-brands fa-threads"></i></a>
+            <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://x.com/?lang=en"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.tiktok.com/explore"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+        <h4>Glory to Mankind</h4>
+    </footer>
+</body>
+    <script src="{% static 'crud/js/script.js' %}"></script>
+</html>

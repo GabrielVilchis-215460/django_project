@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="icon" type="image/jpg" href="{% static 'crud/images/ico.jpg'%} ">
+        <link rel="stylesheet" href="{% static 'crud/css/home.css' %}">
+        <title>Shopping Cart</title>
+    </head>
+    <body class="{% if is_logged_in %}logged-in{% endif %}">
+        <header class="otaku-header">
+            <a href="{% url 'home' %}"><h1><b>Otaku Stuff</b></h1></a>
+            <form method="GET" action="{% url 'catalog' %}" class="searchbar">
+                <input type="text" name="search" placeholder="Search...">
+                <button type="submit" class="searchbtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="iconbtn">
+                <div class="user-menu">
+                    <div class="user-icon" id="userIcon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <nav class="user-opc" id="userMenu">
+                        <ul class="user-act">
+                            <li><a href="{% url 'login' %}">Log in</a></li>
+                            <li><a href="{% url 'user_dashboard' %}">View profile</a></li>
+                            <li><a href="{% url 'logout-user' %}" onclick="showLogoutMessage(event)">Log out</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <a href="{% url 'shopping_cart' %}" class="icon"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </header>
+
+        <h1>Your Cart Items</h1>
+        <hr class="line">
+
+        <div class="cart-container">
+                {% if user.is_authenticated %}
+                <table class="cart-table" cellpadding="8" cellspacing="3">
+                    <thead>
+                        <tr>
+                            <th><b>Product image</b></th>
+                            <th><b>Product name</b></th>
+                            <th><b>Product status</b></th>
+                            <th><b>Quantity</b></th>
+                            <th><b>Product price</b></th>
+                            <th><b>Delete product</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr class="cart-row">
+                            <td>
+                                {% if item.product.product_image %}
+                                    <img src="{{ item.product.product_image.url }}">
+                                {% else %}
+                                    No image
+                                {% endif %}
+                            </td>
+                            <td>{{ item.product.product_name}}</td>
+                            <td>
+                                {% if item.product.is_active %}
+                                    <span class="badge badge-stock">In Stock</span>
+                                {% else %}
+                                    <span class="badge badge-out">Out of Stock</span>
+                                {% endif %}
+                            </td>
+                            <td class="quantity-controls">
+                                <form method="POST" action="{% url 'decrease-qty' item.id %}">
+                                    {% csrf_token %}
+                                    <button class="qty-btn" type="button" data-id="{{ item.id }}" data-action="decrease">-</button>
+                                </form>
+                                <span class="quantity" id="quantity-{{ item.id }}">{{ item.quantity }}</span>
+                                <form method="POST" action="{% url 'increase-qty' item.id %}">
+                                    {% csrf_token %}
+                                    <button class="qty-btn" type="button" data-id="{{ item.id }}" data-action="increase">+</button>
+                                </form>
+                            </td>
+                            <td class="product-price">${{ item.unit_price }} MXN</td>
+                            <td>
+                                <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+                                    {% csrf_token %}
+                                    <button class="trash-btn" type="submit"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="6">No products in cart.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <div class="checkout-section">
+                <div class="shopping-form">
+                    <h3>Shipping Information</h3>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </form>
+                </div>
+                
+                <div class="summary-box">
+                    <p>Product: ${{ total }} MXN</p>
+                    <p>Shipping: Free</p>
+                    <hr class="sep-box">
+                    <p><b>Total: ${{ total }} MXN</b></p>
+                </div>
+
+                <div class="cart-actions">
+                    <a href="{% url 'catalog' %}" class="back-link"><i class="fa-solid fa-reply"></i> Continue shopping</a>
+                    <form action="{% url 'checkout' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="checkout-btn">Checkout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="otaku-footer">
+            <h4><i class="fa-regular fa-copyright"></i> 2025 <b>Otaku stuff.</b> All rights reserved.</h4>
+            <div class="socialmedia">
+                <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.threads.net/?hl=en"><i class="fa-brands fa-threads"></i></a>
+                <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://x.com/?lang=en"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/explore"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <h4>Glory to Mankind</h4>
+        </footer>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'crud/js/script.js' %}"></script>
+</html>
